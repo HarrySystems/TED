@@ -6,7 +6,7 @@
 chrome.devtools.panels.create(
 	"TED",
 	"",
-	"panel.html",
+	"devtools/panel.html",
 	function(panel) {
 
 	}

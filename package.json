@@ -1,0 +1,29 @@
+{
+  "name": "ted",
+  "version": "1.0.0",
+  "description": "TED is a Chrome Extension for easier transpilation of code, making it fast to prototype anywhere and easily integrate with the tools you already use (vim, git, ...).",
+  "main": "server.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/harrysystems/ted.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/harrysystems/ted/issues"
+  },
+  "homepage": "https://github.com/harrysystems/ted#readme",
+  "dependencies": {
+    "connect": "^3.6.4",
+    "finalhandler": "^1.0.5",
+    "http": "0.0.0",
+    "serve-static": "^1.12.4"
+  }
+}
