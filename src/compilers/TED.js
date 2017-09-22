@@ -81,22 +81,6 @@ var transpilers = [
 		}
 	}
 
-	// {
-	// 	name: "sass",
-	// 	ext: "sass",
-	// 	ini: function() {
-	// 		Premise.partial("sassijs.min.js");
-	// 	},
-	// 	elements: {
-	// 		inline: "style",
-	// 		external: "link"
-	// 	},
-	// 	transpile: function(source) {
-	// 		var aux = "";
-	// 		return aux;
-	// 	}
-	// }
-
 ];
 
 
