@@ -92,23 +92,7 @@ var transpilers = [
 			external: "link"
 		},
 		transpile: function(source, target) {
-			sass.compile(
-				source,
-				{ indentedSyntax: true},
-				function(result) {
-					// Something was wrong
-					// if (result.line && result.message) {
-					// 	showErrors('css', [
-					// 		{ lineNumber: result.line - 1, message: result.message }
-					// 	]);
-					// }
-					//console.log(result);
-					target.innerHTML = result.text;
-					// console.log(result.text);
-				}
-			);
-
-			stylus(code).render(function(error, result) {
+			stylus(source).render(function(error, result) {
 				// if (error) {
 				// 	window.err = error;
 				// 	// Last line of message is the actual message
