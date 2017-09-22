@@ -133,7 +133,12 @@ var transpilers = [
 			});
 		}
 	}
+	// babel
+	// typescript
 
+	// pug/jade
+	// haml
+	// markdown
 ];
 
 
@@ -178,12 +183,7 @@ var transpilers = [
 					
 					var url = link.href;
 					if(url == undefined)
-					{
 						url = link.src;
-					}
-					console.log(link.href);
-					console.log(link.src);
-					console.log(url);
 
 					e.fetch({
 						url: url,
