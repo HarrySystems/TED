@@ -109,6 +109,29 @@ var transpilers = [
 				target.innerHTML = result
 			});
 		}
+	},
+
+	{
+		name: "coffeescript",
+		ext: "coffee",
+		ini: function() {
+			Premise.partial("coffee-script.js");
+		},
+		elements: {
+			inline: "script",
+			external: "script"
+		},
+		transpile: function(source, target) {
+			stylus(source).render(function(error, result) {
+				// try {
+					target.innerHTML = CoffeeScript.compile(source, { bare: true });
+				// } catch (e) {
+					// showErrors('js', [
+					// 	{ lineNumber: e.location.first_line, message: e.message }
+					// ]);
+				// }
+			});
+		}
 	}
 
 ];
@@ -140,12 +163,7 @@ var transpilers = [
 					inline = [];
 
 				for(style of inline) {
-					less.render(
-						style.innerHTML,
-					    function (e, output) {
-					    	style.innerHTML = output.css;
-					    }
-					);
+					config.transpile(style.innerHTML, style);
 				}
 
 			// external
@@ -159,11 +177,16 @@ var transpilers = [
 					var source = "";
 					
 					var url = link.href;
-					if(url == null)
+					if(url == undefined)
+					{
 						url = link.src;
+					}
+					console.log(link.href);
+					console.log(link.src);
+					console.log(url);
 
 					e.fetch({
-						url: link.href,
+						url: url,
 						events: {
 							success: function(data) {
 								source = data;
