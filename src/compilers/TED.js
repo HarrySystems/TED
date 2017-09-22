@@ -11,7 +11,6 @@ var transpilers = [
 			external: "link"
 		},
 		transpile: function(source, target) {
-			var aux = "";
 			less.render(
 				source,
 			    function (e, output) {
@@ -19,13 +18,12 @@ var transpilers = [
 			    	target.innerHTML = output.css;
 			    }
 			);
-			return aux;
 		}
 	},
 
 	{
-		name: "sass",
-		ext: "sass",
+		name: "scss",
+		ext: "scss",
 		ini: function() {
 			Premise.partial("sass.js");
 			sass = new Sass(Premise.here() + 'sass.worker.js');
@@ -35,7 +33,6 @@ var transpilers = [
 			external: "link"
 		},
 		transpile: function(source, target) {
-			var aux = "";
 			sass.compile(
 				source,
 				{ indentedSyntax: false},
@@ -51,8 +48,36 @@ var transpilers = [
 					// console.log(result.text);
 				}
 			);
-			console.log(aux);
-			return aux;
+		}
+	},
+
+	{
+		name: "sass",
+		ext: "sass",
+		ini: function() {
+			Premise.partial("sass.js");
+			sass = new Sass(Premise.here() + 'sass.worker.js');
+		},
+		elements: {
+			inline: "style",
+			external: "link"
+		},
+		transpile: function(source, target) {
+			sass.compile(
+				source,
+				{ indentedSyntax: true},
+				function(result) {
+					// Something was wrong
+					// if (result.line && result.message) {
+					// 	showErrors('css', [
+					// 		{ lineNumber: result.line - 1, message: result.message }
+					// 	]);
+					// }
+					//console.log(result);
+					target.innerHTML = result.text;
+					// console.log(result.text);
+				}
+			);
 		}
 	}
 
@@ -136,8 +161,6 @@ var transpilers = [
 					var external = document.createElement(config.elements.inline);
 					document.body.appendChild(external);
 
-					console.log(source);
-					//external.innerHTML = 
 					config.transpile(source, external);
 					link.remove();
 				}
