@@ -43,8 +43,29 @@ var transpilers = [
 	        }
 	    },
 	    transpile: function(source, target) {
-	        if(e.getExt(location.href) == "pug")
+	        if(e.getExt(location.href) == "jade")
 	            target.innerHTML = jade.render(source);
+	    }
+	},
+	{
+	    name: "pug",
+	    ext: "pug",
+	    ini: function() {
+	        e.partial("marked.js");
+	    },
+	    elements: {
+	        inline: {
+	            input: "body",
+	            output: null
+	        },
+	        external: {
+	            input: null,
+	            output: null
+	        }
+	    },
+	    transpile: function(source, target) {
+	        if(e.getExt(location.href) == "md")
+	            target.innerHTML = marked(source);
 	    }
 	},
 	
