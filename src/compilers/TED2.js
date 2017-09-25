@@ -26,6 +26,27 @@ var transpilers = [
 	            target.innerHTML = jade.render(source);
 	    }
 	},
+	{
+	    name: "jade",
+	    ext: "jade",
+	    ini: function() {
+	        e.partial("jade.js");
+	    },
+	    elements: {
+	        inline: {
+	            input: "body",
+	            output: null
+	        },
+	        external: {
+	            input: null,
+	            output: null
+	        }
+	    },
+	    transpile: function(source, target) {
+	        if(e.getExt(location.href) == "pug")
+	            target.innerHTML = jade.render(source);
+	    }
+	},
 	
 	{
 		name: "less",
