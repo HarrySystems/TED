@@ -5,7 +5,8 @@
 	"description": "The transpilation tool to rule them all",
 	"background": {
 		"scripts": [
-			"background.js"
+			"core/e.js",
+			"core/TED.js"
 		],
 		"persistent": true
 	},
