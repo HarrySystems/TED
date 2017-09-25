@@ -1,14 +1,48 @@
 var transpilers = [
-
+    
+	// CONSIDER document.getElementsByTagName("pre")[0].innerHTML
+	// pug/jade
+	// haml
+	// markdown
+	
+	{
+	    name: "pug",
+	    ext: "pug",
+	    ini: function() {
+	        e.partial("jade.js");
+	    },
+	    elements: {
+	        inline: {
+	            input: "body",
+	            output: null
+	        },
+	        external: {
+	            input: null,
+	            output: null
+	        }
+	    },
+	    transpile: function(source, target) {
+	        if(e.getExt(location.href) == "pug")
+	            target.innerHTML = jade.render(source);
+	    }
+	},
+	
 	{
 		name: "less",
 		ext: "less",
 		ini: function() {
-			Premise.partial("less.min.js");
+			e.partial("less.min.js");
 		},
+		
 		elements: {
-			inline: "style",
-			external: "link"
+			inline: {
+			    input: "style[lang='less']",
+			    output: "style"
+			},
+			external: {
+			    input: "link[lang='less']",
+			    output: "style"
+			}
 		},
 		transpile: function(source, target) {
 			less.render(
@@ -25,12 +59,18 @@ var transpilers = [
 		name: "scss",
 		ext: "scss",
 		ini: function() {
-			Premise.partial("sass.js");
-			sass = new Sass(Premise.here() + 'sass.worker.js');
+			e.partial("sass.js");
+			sass = new Sass(e.here() + 'sass.worker.js');
 		},
 		elements: {
-			inline: "style",
-			external: "link"
+			inline: {
+			    input: "style[lang='scss']",
+			    output: "style"
+			},
+			external: {
+			    input: "link[lang='scss']",
+			    output: "style"
+			}
 		},
 		transpile: function(source, target) {
 			sass.compile(
@@ -55,12 +95,19 @@ var transpilers = [
 		name: "sass",
 		ext: "sass",
 		ini: function() {
-			Premise.partial("sass.js");
-			sass = new Sass(Premise.here() + 'sass.worker.js');
+			e.partial("sass.js");
+			sass = new Sass(e.here() + 'sass.worker.js');
 		},
+		
 		elements: {
-			inline: "style",
-			external: "link"
+			inline: {
+			    input: "style[lang='sass']",
+			    output: "style"
+			},
+			external: {
+			    input: "link[lang='sass']",
+			    output: "style"
+			}
 		},
 		transpile: function(source, target) {
 			sass.compile(
@@ -85,11 +132,18 @@ var transpilers = [
 		name: "stylus",
 		ext: "styl",
 		ini: function() {
-			Premise.partial("stylus.min.js");
+			e.partial("stylus.min.js");
 		},
+		
 		elements: {
-			inline: "style",
-			external: "link"
+			inline: {
+			    input: "style[lang='styl']",
+			    output: "style"
+			},
+			external: {
+			    input: "link[lang='styl']",
+			    output: "style"
+			}
 		},
 		transpile: function(source, target) {
 			stylus(source).render(function(error, result) {
@@ -115,11 +169,18 @@ var transpilers = [
 		name: "coffeescript",
 		ext: "coffee",
 		ini: function() {
-			Premise.partial("coffee-script.js");
+			e.partial("coffee-script.js");
 		},
+		
 		elements: {
-			inline: "script",
-			external: "script"
+			inline: {
+			    input: "script[lang='coffee']",
+			    output: "script"
+			},
+			external: {
+			    input: "script[lang='coffee']",
+			    output: "script"
+			}
 		},
 		transpile: function(source, target) {
 			stylus(source).render(function(error, result) {
@@ -137,10 +198,6 @@ var transpilers = [
 	// typescript
 
 
-	// CONSIDER document.getElementsByTagName("pre")[0].innerHTML
-	// pug/jade
-	// haml
-	// markdown
 ];
 
 
@@ -163,7 +220,7 @@ var transpilers = [
 
 		try {
 			// inline
-				var inline = document.querySelector(config.elements.inline + "[lang='" + config.ext + "']");
+				var inline = document.querySelector(config.elements.inline.input);
 				if(!Array.isArray(inline) && inline != null)
 					inline = [inline];
 				else
@@ -174,7 +231,7 @@ var transpilers = [
 				}
 
 			// external
-				var links = document.querySelector(config.elements.external + "[lang='" + config.ext + "']");
+				var links = document.querySelector(config.elements.external.input);
 				if(!Array.isArray(links) && links != null)
 					links = [links];
 				else
@@ -192,15 +249,16 @@ var transpilers = [
 						events: {
 							success: function(data) {
 								source = data;
+								
+            					var external = document.createElement(config.elements.external.output);
+            					document.body.appendChild(external);
+            
+            					config.transpile(source, external);
 							}
 						},
 						async: false
 					});
 
-					var external = document.createElement(config.elements.inline);
-					document.body.appendChild(external);
-
-					config.transpile(source, external);
 					link.remove();
 				}
 		}
