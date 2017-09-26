@@ -13,13 +13,14 @@
 		{
 			"run_at": "document_end",
 			"matches": ["*://*/*"],
+
 			"js": [
-				
+				"background.js",
 				"core/handler.js",
 				"core/babel.min.js",
 				"core/coffee-script.js",
 				
-				"core/jade.min3.js",
+				"core/jade.js",
 				"core/less.min.js",
 				"core/marked.js",
 				"core/sass.js",
@@ -38,5 +39,7 @@
 		"https://*/*",
 		"http://*/*",
 		"tabs"
-	]
+	],
+	"web_accessible_resources": ["core/jade.js"],
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

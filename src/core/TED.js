@@ -1,4 +1,5 @@
 var sass = null;
+
 var transpilers = [
     
 	// CONSIDER document.getElementsByTagName("pre")[0].innerHTML
@@ -28,14 +29,17 @@ var transpilers = [
 	    },
 	    transpile: function(source, target) {
 	        if(e.getExt(location.href) == "pug")
-	        	document.body.innerHTML = jade.compile(source)();
+				document.body.innerHTML =  jade.compile(source, {
+					pretty: true,
+					doctype: '5'
+				})(null)
 	    }
 	},
 	{
 	    name: "jade",
 	    ext: "jade",
 	    ini: function() {
-	        e.partial("jade.js");
+	        // e.partial("jade.js");
 	    },
 	    elements: {
 	        inline: {
@@ -49,7 +53,10 @@ var transpilers = [
 	    },
 	    transpile: function(source, target) {
 	        if(e.getExt(location.href) == "jade")
-	        	document.body.innerHTML = jade.compile(source)();
+				document.body.innerHTML =  jade.compile(source, {
+					pretty: true,
+					doctype: '5'
+				})(null)
 	    }
 	},
 	{
@@ -214,6 +221,29 @@ var transpilers = [
 		}
 	},
 
+	// NOK
+	{
+	    name: "js",
+	    ext: "js",
+	    ini: function() {
+	       	e.partial("babel.min.js");
+	    },
+	    elements: {
+	        inline: {
+	            input: 	"script",
+	            output: "script"
+	        },
+	        external: {
+	            input: "script",
+	            output: "script"
+	        }
+	    },
+	    transpile: function(source, target) {
+	        target.innerHTML += Babel.transform(source, {
+				presets: []
+			}).code;
+	    }
+	},
 	{
 		name: "coffeescript",
 		ext: "coffee",
@@ -271,24 +301,17 @@ var transpilers = [
 		if(config == undefined)
 			return null;
 
-		try {
+		// try {
 			// inline
-				var inline = document.querySelector(config.elements.inline.input);
-				if(!Array.isArray(inline) && inline != null)
-					inline = [inline];
-				else
-					inline = [];
+				var inline = document.querySelectorAll(config.elements.inline.input);
 
 				for(style of inline) {
-					config.transpile(style.innerHTML, style);
+					if(style.innerText != null && style.innerText != undefined)
+						config.transpile(style.innerText, style);
 				}
 
 			// external
-				var links = document.querySelector(config.elements.external.input);
-				if(!Array.isArray(links) && links != null)
-					links = [links];
-				else
-					links = [];
+				var links = document.querySelectorAll(config.elements.external.input);
 
 				for(link of links) {
 					var source = "";
@@ -296,6 +319,7 @@ var transpilers = [
 					var url = link.href;
 					if(url == undefined)
 						url = link.src;
+					// console.log(url);
 
 					e.fetch({
 						url: url,
@@ -304,9 +328,11 @@ var transpilers = [
 								source = data;
 								
             					var external = document.createElement(config.elements.external.output);
-            					document.body.appendChild(external);
+            					document.querySelector("head").appendChild(external);
+
             
-            					config.transpile(source, external);
+								if(source != null && source != undefined)
+            						config.transpile(source, external);
 							}
 						},
 						async: false
@@ -314,10 +340,10 @@ var transpilers = [
 
 					link.remove();
 				}
-		}
-		catch(ex) {
+		// }
+		// catch(ex) {
 
-		}
+		// }
 		
 	}
 
