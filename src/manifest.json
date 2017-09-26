@@ -5,11 +5,35 @@
 	"description": "The transpilation tool to rule them all",
 	"background": {
 		"scripts": [
-			"core/e.js",
-			"core/TED.js"
+			"background.js"			
 		],
 		"persistent": true
 	},
+	"content_scripts": [
+		{
+			"run_at": "document_end",
+			"matches": ["*://*/*"],
+			"js": [
+				
+				"core/handler.js",
+				"core/babel.min.js",
+				"core/coffee-script.js",
+				
+				"core/jade.min3.js",
+				"core/less.min.js",
+				"core/marked.js",
+				"core/sass.js",
+				"core/sass.worker.js",
+				"core/stylus.min.js",
+				"core/typescript.js",
+
+				"core/e.js",
+
+				"core/TED.js"
+			]
+		}
+	],
+
 	"permissions": [
 		"https://*/*",
 		"http://*/*",
