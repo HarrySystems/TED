@@ -1,20 +1,25 @@
+var sass = null;
 var transpilers = [
     
 	// CONSIDER document.getElementsByTagName("pre")[0].innerHTML
 	// pug/jade
 	// haml
-	// markdown
 	
 	{
 	    name: "pug",
 	    ext: "pug",
 	    ini: function() {
-	        e.partial("jade.js");
+	    	try{
+	       		e.partial("jade.js");
+	    	}
+	    	catch(ex) {
+
+	    	}
 	    },
 	    elements: {
 	        inline: {
-	            input: "body",
-	            output: null
+	            input: 	"body>pre",
+	            output: "body"
 	        },
 	        external: {
 	            input: null,
@@ -23,7 +28,7 @@ var transpilers = [
 	    },
 	    transpile: function(source, target) {
 	        if(e.getExt(location.href) == "pug")
-	            target.innerHTML = jade.render(source);
+	        	document.body.innerHTML = jade.compile(source)();
 	    }
 	},
 	{
@@ -34,8 +39,8 @@ var transpilers = [
 	    },
 	    elements: {
 	        inline: {
-	            input: "body",
-	            output: null
+	            input: 	"body>pre",
+	            output: "body"
 	        },
 	        external: {
 	            input: null,
@@ -44,18 +49,18 @@ var transpilers = [
 	    },
 	    transpile: function(source, target) {
 	        if(e.getExt(location.href) == "jade")
-	            target.innerHTML = jade.render(source);
+	        	document.body.innerHTML = jade.compile(source)();
 	    }
 	},
 	{
-	    name: "pug",
-	    ext: "pug",
+	    name: "markdown",
+	    ext: "md",
 	    ini: function() {
 	        e.partial("marked.js");
 	    },
 	    elements: {
 	        inline: {
-	            input: "body",
+	            input: "body>pre",
 	            output: null
 	        },
 	        external: {
@@ -102,7 +107,8 @@ var transpilers = [
 		ext: "scss",
 		ini: function() {
 			e.partial("sass.js");
-			sass = new Sass(e.here() + 'sass.worker.js');
+			//sass = new Sass(e.here() + 'sass.worker.js');
+			// sass = new Sass();
 		},
 		elements: {
 			inline: {
@@ -115,7 +121,7 @@ var transpilers = [
 			}
 		},
 		transpile: function(source, target) {
-			sass.compile(
+			Sass.compile(
 				source,
 				{ indentedSyntax: false},
 				function(result) {
@@ -138,7 +144,8 @@ var transpilers = [
 		ext: "sass",
 		ini: function() {
 			e.partial("sass.js");
-			sass = new Sass(e.here() + 'sass.worker.js');
+			//sass = new Sass(e.here() + 'sass.worker.js');
+			// sass = new Sass();
 		},
 		
 		elements: {
@@ -152,7 +159,7 @@ var transpilers = [
 			}
 		},
 		transpile: function(source, target) {
-			sass.compile(
+			Sass.compile(
 				source,
 				{ indentedSyntax: true},
 				function(result) {
@@ -244,17 +251,21 @@ var transpilers = [
 
 
 // load transpiler files
-	for(transpiler of transpilers) {
-		transpiler.ini();
-	}
+	if(handler == undefined)
+		handler = "inline";
+
+	if(handler == "inline")
+		for(transpiler of transpilers) {
+			transpiler.ini();
+		}
 
 // add event for traspiling
-	window.addEventListener("load",function() {
+	// window.addEventListener("load",function() {
 		for(config in transpilers) {
 			config = transpilers[config];
 			transpile(config);
 		}
-	})
+	// })
 
 	function transpile(config) {
 		if(config == undefined)
@@ -310,5 +321,3 @@ var transpilers = [
 		
 	}
 
-
-	console.log("ted");
