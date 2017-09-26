@@ -221,20 +221,40 @@ var transpilers = [
 		}
 	},
 
-	// NOK
+	
 	{
 	    name: "js",
+	    ext: "js",
+	    ini: function() {
+	    },
+	    elements: {
+	        inline: {
+	            input: 	null,
+	            output: null
+	        },
+	        external: {
+	            input: "script:empty",
+	            output: "script"
+	        }
+	    },
+	    transpile: function(source, target) {
+	        target.innerHTML += Babel.transform(source, {
+				presets: []
+			}).code;
+	    }
+	},{
+	    name: "babel",
 	    ext: "js",
 	    ini: function() {
 	       	e.partial("babel.min.js");
 	    },
 	    elements: {
 	        inline: {
-	            input: 	"script",
+	            input: 	"script[lang='babel']",
 	            output: "script"
 	        },
 	        external: {
-	            input: "script",
+	            input: "script[lang='babel']",
 	            output: "script"
 	        }
 	    },
