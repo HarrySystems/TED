@@ -2,9 +2,10 @@ var sass = null;
 
 var transpilers = [
     
-	// CONSIDER document.getElementsByTagName("pre")[0].innerHTML
-	// pug/jade
 	// haml
+	// ejs
+	// blade
+	// mustache
 	
 	{
 	    name: "pug",
@@ -221,7 +222,6 @@ var transpilers = [
 		}
 	},
 
-	,
 	{
 	    name: "js",
 	    ext: "js",
@@ -233,7 +233,7 @@ var transpilers = [
 	            output: null
 	        },
 	        external: {
-	            input: "script:empty",
+	            input: "body script",
 	            output: "script"
 	        }
 	    },
@@ -242,7 +242,8 @@ var transpilers = [
 				presets: []
 			}).code;
 	    }
-	}{
+	},
+	{
 	    name: "babel",
 	    ext: "js",
 	    ini: function() {
