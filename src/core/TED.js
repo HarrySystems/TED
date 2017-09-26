@@ -221,7 +221,7 @@ var transpilers = [
 		}
 	},
 
-	
+	,
 	{
 	    name: "js",
 	    ext: "js",
@@ -242,7 +242,7 @@ var transpilers = [
 				presets: []
 			}).code;
 	    }
-	},{
+	}{
 	    name: "babel",
 	    ext: "js",
 	    ini: function() {
