@@ -294,6 +294,33 @@ var transpilers = [
 		    }
 		},
 		{
+		    name: "typescript",
+		    ext: "ts",
+		    ini: function() {
+		       	e.partial("babel.min.js");
+		    },
+		    elements: {
+		        inline: {
+		            input: 	"script[lang='ts']",
+		            output: "script"
+		        },
+		        external: {
+		            input: "script[lang='ts']",
+		            output: "script"
+		        }
+		    },
+		    transpile: function(source, target) {
+		        target.innerHTML += ts.transpileModule(source, {
+					reportDiagnostics: true,
+					compilerOptions: {
+						noEmitOnError: true,
+						diagnostics: true,
+						module: ts.ModuleKind.ES2015
+					}
+				}).outputText;
+		    }
+		},
+		{
 		    name: "babel",
 		    ext: "js",
 		    ini: function() {
