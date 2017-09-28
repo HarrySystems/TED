@@ -27,6 +27,7 @@
 				"core/sass.worker.js",
 				"core/stylus.min.js",
 				"core/typescript.js",
+				"core/ejs.min.js",
 
 				"core/e.js",
 
