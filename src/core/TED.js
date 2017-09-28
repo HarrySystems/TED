@@ -1,301 +1,340 @@
 var sass = null;
 
 var transpilers = [
-    
-	// haml
-	// ejs
-	// blade
-	// mustache
-	
-	{
-	    name: "pug",
-	    ext: "pug",
-	    ini: function() {
-	    	try{
-	       		e.partial("jade.js");
-	    	}
-	    	catch(ex) {
 
-	    	}
-	    },
-	    elements: {
-	        inline: {
-	            input: 	"body>pre",
-	            output: "body"
-	        },
-	        external: {
-	            input: null,
-	            output: null
-	        }
-	    },
-	    transpile: function(source, target) {
-	        if(e.getExt(location.href) == "pug")
-				document.body.innerHTML =  jade.compile(source, {
-					pretty: true,
-					doctype: '5'
-				})(null)
-	    }
-	},
-	{
-	    name: "jade",
-	    ext: "jade",
-	    ini: function() {
-	        // e.partial("jade.js");
-	    },
-	    elements: {
-	        inline: {
-	            input: 	"body>pre",
-	            output: "body"
-	        },
-	        external: {
-	            input: null,
-	            output: null
-	        }
-	    },
-	    transpile: function(source, target) {
-	        if(e.getExt(location.href) == "jade")
-				document.body.innerHTML =  jade.compile(source, {
-					pretty: true,
-					doctype: '5'
-				})(null)
-	    }
-	},
-	{
-	    name: "markdown",
-	    ext: "md",
-	    ini: function() {
-	        e.partial("marked.js");
-	    },
-	    elements: {
-	        inline: {
-	            input: "body>pre",
-	            output: null
-	        },
-	        external: {
-	            input: null,
-	            output: null
-	        }
-	    },
-	    transpile: function(source, target) {
-	        if(e.getExt(location.href) == "md")
-	            target.innerHTML = marked(source);
-	    }
-	},
-	
-	{
-		name: "less",
-		ext: "less",
-		ini: function() {
-			e.partial("less.min.js");
+	// HTML
+		// haml
+		// ejs
+		// blade
+		// mustache
+
+		{
+		    name: "pug",
+		    ext: "pug",
+		    ini: function() {
+		    	try{
+		       		e.partial("jade.js");
+		    	}
+		    	catch(ex) {
+
+		    	}
+		    },
+		    elements: {
+		        inline: {
+		            input: 	"body>pre",
+		            output: "body"
+		        },
+		        external: {
+		            input: null,
+		            output: null
+		        }
+		    },
+		    transpile: function(source, target) {
+		        if(e.getExt(location.href) == "pug")
+				{
+					// for(var el of document.querySelectorAll("body>script"))
+					// {
+					// 	console.log(el);
+					// 	document.getElementsByTagName("head")[0].innerHTML += el.innerText;
+					// }
+
+					document.body.innerHTML =  jade.compile(source, {
+						pretty: true,
+						doctype: '5'
+					})(null)
+				}
+		    }
 		},
-		
-		elements: {
-			inline: {
-			    input: "style[lang='less']",
-			    output: "style"
+		{
+		    name: "jade",
+		    ext: "jade",
+		    ini: function() {
+		        // e.partial("jade.js");
+		    },
+		    elements: {
+		        inline: {
+		            input: 	"body>pre",
+		            output: "body"
+		        },
+		        external: {
+		            input: null,
+		            output: null
+		        }
+		    },
+		    transpile: function(source, target) {
+		        if(e.getExt(location.href) == "jade")
+					document.body.innerHTML =  jade.compile(source, {
+						pretty: true,
+						doctype: '5'
+					})(null)
+		    }
+		},
+		{
+		    name: "markdown",
+		    ext: "md",
+		    ini: function() {
+		        e.partial("marked.js");
+		    },
+		    elements: {
+		        inline: {
+		            input: "body>pre",
+		            output: null
+		        },
+		        external: {
+		            input: null,
+		            output: null
+		        }
+		    },
+		    transpile: function(source, target) {
+		        if(e.getExt(location.href) == "md")
+		            target.innerHTML = marked(source);
+		    }
+		},
+
+	// CSS
+		{
+			name: "less",
+			ext: "less",
+			ini: function() {
+				e.partial("less.min.js");
 			},
-			external: {
-			    input: "link[lang='less']",
-			    output: "style"
+
+			elements: {
+				inline: {
+				    input: "style[lang='less']",
+				    output: "style"
+				},
+				external: {
+				    input: "link[lang='less']",
+				    output: "style"
+				}
+			},
+			transpile: function(source, target) {
+				less.render(
+					source,
+				    function (e, output) {
+				    	aux = output.css;
+				    	target.innerHTML = output.css;
+				    }
+				);
 			}
 		},
-		transpile: function(source, target) {
-			less.render(
-				source,
-			    function (e, output) {
-			    	aux = output.css;
-			    	target.innerHTML = output.css;
-			    }
-			);
-		}
-	},
 
-	{
-		name: "scss",
-		ext: "scss",
-		ini: function() {
-			e.partial("sass.js");
-			//sass = new Sass(e.here() + 'sass.worker.js');
-			// sass = new Sass();
-		},
-		elements: {
-			inline: {
-			    input: "style[lang='scss']",
-			    output: "style"
+		{
+			name: "scss",
+			ext: "scss",
+			ini: function() {
+				e.partial("sass.js");
+				//sass = new Sass(e.here() + 'sass.worker.js');
+				// sass = new Sass();
 			},
-			external: {
-			    input: "link[lang='scss']",
-			    output: "style"
+			elements: {
+				inline: {
+				    input: "style[lang='scss']",
+				    output: "style"
+				},
+				external: {
+				    input: "link[lang='scss']",
+				    output: "style"
+				}
+			},
+			transpile: function(source, target) {
+				Sass.compile(
+					source,
+					{ indentedSyntax: false},
+					function(result) {
+						// Something was wrong
+						// if (result.line && result.message) {
+						// 	showErrors('css', [
+						// 		{ lineNumber: result.line - 1, message: result.message }
+						// 	]);
+						// }
+						//console.log(result);
+						target.innerHTML = result.text;
+						// console.log(result.text);
+					}
+				);
 			}
 		},
-		transpile: function(source, target) {
-			Sass.compile(
-				source,
-				{ indentedSyntax: false},
-				function(result) {
-					// Something was wrong
-					// if (result.line && result.message) {
+
+		{
+			name: "sass",
+			ext: "sass",
+			ini: function() {
+				e.partial("sass.js");
+				//sass = new Sass(e.here() + 'sass.worker.js');
+				// sass = new Sass();
+			},
+
+			elements: {
+				inline: {
+				    input: "style[lang='sass']",
+				    output: "style"
+				},
+				external: {
+				    input: "link[lang='sass']",
+				    output: "style"
+				}
+			},
+			transpile: function(source, target) {
+				Sass.compile(
+					source,
+					{ indentedSyntax: true},
+					function(result) {
+						// Something was wrong
+						// if (result.line && result.message) {
+						// 	showErrors('css', [
+						// 		{ lineNumber: result.line - 1, message: result.message }
+						// 	]);
+						// }
+						//console.log(result);
+						target.innerHTML = result.text;
+						// console.log(result.text);
+					}
+				);
+			}
+		},
+
+		{
+			name: "stylus",
+			ext: "styl",
+			ini: function() {
+				e.partial("stylus.min.js");
+			},
+
+			elements: {
+				inline: {
+				    input: "style[lang='styl']",
+				    output: "style"
+				},
+				external: {
+				    input: "link[lang='styl']",
+				    output: "style"
+				}
+			},
+			transpile: function(source, target) {
+				stylus(source).render(function(error, result) {
+					// if (error) {
+					// 	window.err = error;
+					// 	// Last line of message is the actual message
+					// 	var tempArr = error.message.split('\n');
+					// 	tempArr.pop(); // This is empty string in the end
 					// 	showErrors('css', [
-					// 		{ lineNumber: result.line - 1, message: result.message }
+					// 		{
+					// 			lineNumber: +error.message.match(/stylus:(\d+):/)[1] - 298,
+					// 			message: tempArr.pop()
+					// 		}
 					// 	]);
 					// }
-					//console.log(result);
-					target.innerHTML = result.text;
-					// console.log(result.text);
-				}
-			);
-		}
-	},
 
-	{
-		name: "sass",
-		ext: "sass",
-		ini: function() {
-			e.partial("sass.js");
-			//sass = new Sass(e.here() + 'sass.worker.js');
-			// sass = new Sass();
-		},
-		
-		elements: {
-			inline: {
-			    input: "style[lang='sass']",
-			    output: "style"
-			},
-			external: {
-			    input: "link[lang='sass']",
-			    output: "style"
+					target.innerHTML = result
+				});
 			}
 		},
-		transpile: function(source, target) {
-			Sass.compile(
-				source,
-				{ indentedSyntax: true},
-				function(result) {
-					// Something was wrong
-					// if (result.line && result.message) {
-					// 	showErrors('css', [
-					// 		{ lineNumber: result.line - 1, message: result.message }
-					// 	]);
+		{
+		    name: "css",
+		    ext: "css",
+		    ini: function() {
+		    },
+		    elements: {
+		        inline: {
+		            input: 	"style[lang='css']",
+		            output: "style"
+		        },
+		        external: {
+		            input: "link[lang='css']",
+		            output: "style"
+		        }
+		    },
+		    transpile: function(source, target) {
+		    	if(["pug", "jade"].includes(e.getExt(location.href))){
+		    		target.innerHTML = source;
+				}
+		  //       target.innerHTML += Babel.transform(source, {
+				// 	presets: []
+				// }).code;
+		    }
+		},
+
+	// JS
+		{
+		    name: "js",
+		    ext: "js",
+		    ini: function() {
+		    },
+		    elements: {
+		        inline: {
+		            input: 	null,
+		            output: null
+		        },
+		        external: {
+		            input: "script[lang='js']",
+		            output: "script"
+		        }
+		    },
+		    transpile: function(source, target) {
+				console.log("js");
+		    	if(["pug", "jade"].includes(e.getExt(location.href))){
+		    		target.innerHTML = source;
+				}
+		  //       target.innerHTML += Babel.transform(source, {
+				// 	presets: []
+				// }).code;
+		    }
+		},
+		{
+		    name: "babel",
+		    ext: "js",
+		    ini: function() {
+		       	e.partial("babel.min.js");
+		    },
+		    elements: {
+		        inline: {
+		            input: 	"script[lang='babel']",
+		            output: "script"
+		        },
+		        external: {
+		            input: "script[lang='babel']",
+		            output: "script"
+		        }
+		    },
+		    transpile: function(source, target) {
+		        target.innerHTML += Babel.transform(source, {
+					presets: []
+				}).code;
+		    }
+		},
+		{
+			name: "coffeescript",
+			ext: "coffee",
+			ini: function() {
+				e.partial("coffee-script.js");
+			},
+
+			elements: {
+				inline: {
+				    input: "script[lang='coffee']",
+				    output: "script"
+				},
+				external: {
+				    input: "script[lang='coffee']",
+				    output: "script"
+				}
+			},
+			transpile: function(source, target) {
+				stylus(source).render(function(error, result) {
+					// try {
+						target.innerHTML = CoffeeScript.compile(source, { bare: true });
+					// } catch (e) {
+						// showErrors('js', [
+						// 	{ lineNumber: e.location.first_line, message: e.message }
+						// ]);
 					// }
-					//console.log(result);
-					target.innerHTML = result.text;
-					// console.log(result.text);
-				}
-			);
-		}
-	},
-
-	{
-		name: "stylus",
-		ext: "styl",
-		ini: function() {
-			e.partial("stylus.min.js");
-		},
-		
-		elements: {
-			inline: {
-			    input: "style[lang='styl']",
-			    output: "style"
-			},
-			external: {
-			    input: "link[lang='styl']",
-			    output: "style"
+				});
 			}
-		},
-		transpile: function(source, target) {
-			stylus(source).render(function(error, result) {
-				// if (error) {
-				// 	window.err = error;
-				// 	// Last line of message is the actual message
-				// 	var tempArr = error.message.split('\n');
-				// 	tempArr.pop(); // This is empty string in the end
-				// 	showErrors('css', [
-				// 		{
-				// 			lineNumber: +error.message.match(/stylus:(\d+):/)[1] - 298,
-				// 			message: tempArr.pop()
-				// 		}
-				// 	]);
-				// }
-
-				target.innerHTML = result
-			});
 		}
-	},
 
-	{
-	    name: "js",
-	    ext: "js",
-	    ini: function() {
-	    },
-	    elements: {
-	        inline: {
-	            input: 	null,
-	            output: null
-	        },
-	        external: {
-	            input: "body script",
-	            output: "script"
-	        }
-	    },
-	    transpile: function(source, target) {
-	        target.innerHTML += Babel.transform(source, {
-				presets: []
-			}).code;
-	    }
-	},
-	{
-	    name: "babel",
-	    ext: "js",
-	    ini: function() {
-	       	e.partial("babel.min.js");
-	    },
-	    elements: {
-	        inline: {
-	            input: 	"script[lang='babel']",
-	            output: "script"
-	        },
-	        external: {
-	            input: "script[lang='babel']",
-	            output: "script"
-	        }
-	    },
-	    transpile: function(source, target) {
-	        target.innerHTML += Babel.transform(source, {
-				presets: []
-			}).code;
-	    }
-	},
-	{
-		name: "coffeescript",
-		ext: "coffee",
-		ini: function() {
-			e.partial("coffee-script.js");
-		},
-		
-		elements: {
-			inline: {
-			    input: "script[lang='coffee']",
-			    output: "script"
-			},
-			external: {
-			    input: "script[lang='coffee']",
-			    output: "script"
-			}
-		},
-		transpile: function(source, target) {
-			stylus(source).render(function(error, result) {
-				// try {
-					target.innerHTML = CoffeeScript.compile(source, { bare: true });
-				// } catch (e) {
-					// showErrors('js', [
-					// 	{ lineNumber: e.location.first_line, message: e.message }
-					// ]);
-				// }
-			});
-		}
-	}
-	// babel
-	// typescript
+		// typescript
 
 
 ];
@@ -336,7 +375,7 @@ var transpilers = [
 
 				for(link of links) {
 					var source = "";
-					
+
 					var url = link.href;
 					if(url == undefined)
 						url = link.src;
@@ -347,11 +386,11 @@ var transpilers = [
 						events: {
 							success: function(data) {
 								source = data;
-								
+
             					var external = document.createElement(config.elements.external.output);
             					document.querySelector("head").appendChild(external);
 
-            
+
 								if(source != null && source != undefined)
             						config.transpile(source, external);
 							}
@@ -365,6 +404,5 @@ var transpilers = [
 		// catch(ex) {
 
 		// }
-		
-	}
 
+	}
