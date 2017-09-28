@@ -15,7 +15,6 @@
 			"matches": ["*://*/*"],
 
 			"js": [
-				"background.js",
 				"core/handler.js",
 				"core/babel.min.js",
 				"core/coffee-script.js",
@@ -28,6 +27,7 @@
 				"core/stylus.min.js",
 				"core/typescript.js",
 				"core/ejs.min.js",
+				"core/mustache.js",
 
 				"core/e.js",
 
