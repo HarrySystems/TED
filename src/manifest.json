@@ -17,21 +17,22 @@
 
 			"js": [
 				"core/handler.js",
+
 				"core/babel.min.js",
 				"core/coffee-script.js",
+				"core/typescript.js",
 				
 				"core/jade.js",
-				"core/less.min.js",
 				"core/marked.js",
-				"core/sass.js",
-				"core/sass.worker.js",
-				"core/stylus.min.js",
-				"core/typescript.js",
 				"core/ejs.min.js",
 				"core/mustache.js",
+				"core/underscore-min.js", "core/underscore.string.min.js", "core/haml.js",
+
+				"core/less.min.js",
+				"core/sass.js", "core/sass.worker.js",
+				"core/stylus.min.js",
 
 				"core/e.js",
-
 				"core/TED.js"
 			]
 		}
@@ -42,6 +43,5 @@
 		"http://*/*",
 		"tabs"
 	],
-	"web_accessible_resources": ["core/jade.js"],
 	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

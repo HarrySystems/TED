@@ -102,6 +102,29 @@ var transpilers = [
 		        	target.innerHTML = ejs.render(source);
 		    }
 		},
+		{
+		    name: "haml",
+		    ext: "haml",
+		    ini: function() {
+		        e.partial("underscore-min.js");
+		        e.partial("underscore.string.min.js");
+		        e.partial("ejs.js");
+		    },
+		    elements: {
+		        inline: {
+		            input: "body>pre",
+		            output: null
+		        },
+		        external: {
+		            input: null,
+		            output: null
+		        }
+		    },
+		    transpile: function(source, target) {
+		        if(e.getExt(location.href) == "haml")
+		        	target.innerHTML = haml.compileHaml({source: source})();
+		    }
+		},
 
 	// CSS
 		{
