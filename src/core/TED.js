@@ -102,29 +102,29 @@ var transpilers = [
 		        	target.innerHTML = ejs.render(source);
 		    }
 		},
-		{
-		    name: "haml",
-		    ext: "haml",
-		    ini: function() {
-		        e.partial("underscore-min.js");
-		        e.partial("underscore.string.min.js");
-		        e.partial("ejs.js");
-		    },
-		    elements: {
-		        inline: {
-		            input: "body>pre",
-		            output: null
-		        },
-		        external: {
-		            input: null,
-		            output: null
-		        }
-		    },
-		    transpile: function(source, target) {
-		        if(e.getExt(location.href) == "haml")
-		        	target.innerHTML = haml.compileHaml({source: source})();
-		    }
-		},
+		// {
+		//     name: "haml",
+		//     ext: "haml",
+		//     ini: function() {
+		//         e.partial("underscore-min.js");
+		//         e.partial("underscore.string.min.js");
+		//         e.partial("ejs.js");
+		//     },
+		//     elements: {
+		//         inline: {
+		//             input: "body>pre",
+		//             output: null
+		//         },
+		//         external: {
+		//             input: null,
+		//             output: null
+		//         }
+		//     },
+		//     transpile: function(source, target) {
+		//         if(e.getExt(location.href) == "haml")
+		//         	target.innerHTML = haml.compileHaml({source: source})();
+		//     }
+		// },
 
 	// CSS
 		{
@@ -344,28 +344,6 @@ var transpilers = [
 		    }
 		},
 		{
-		    name: "babel",
-		    ext: "js",
-		    ini: function() {
-		       	e.partial("babel.min.js");
-		    },
-		    elements: {
-		        inline: {
-		            input: 	"script[lang='babel']",
-		            output: "script"
-		        },
-		        external: {
-		            input: "script[lang='babel']",
-		            output: "script"
-		        }
-		    },
-		    transpile: function(source, target) {
-		        target.innerHTML += Babel.transform(source, {
-					presets: []
-				}).code;
-		    }
-		},
-		{
 			name: "coffeescript",
 			ext: "coffee",
 			ini: function() {
@@ -393,6 +371,28 @@ var transpilers = [
 					// }
 				});
 			}
+		},
+		{
+		    name: "babel",
+		    ext: "js",
+		    ini: function() {
+		       	e.partial("babel.min.js");
+		    },
+		    elements: {
+		        inline: {
+		            input: 	"script[lang='babel']",
+		            output: "script"
+		        },
+		        external: {
+		            input: "script[lang='babel']",
+		            output: "script"
+		        }
+		    },
+		    transpile: function(source, target) {
+		        target.innerHTML += Babel.transform(source, {
+					presets: []
+				}).code;
+		    }
 		}
 
 		// typescript
@@ -412,8 +412,9 @@ var transpilers = [
 
 // add event for traspiling
 	// window.addEventListener("load",function() {
-		for(config in transpilers) {
-			config = transpilers[config];
+			// console.log(transpilers);
+		for(config of transpilers) {
+			// config = transpilers[config];
 			transpile(config);
 		}
 	// })
