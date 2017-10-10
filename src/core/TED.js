@@ -170,11 +170,24 @@ var transpilers = [
 			},
 			transpile: function(source, target) {
 				less.render(
-					source,
-				    function (e, output) {
-				    	aux = output.css;
-				    	target.innerHTML = output.css;
-				    }
+					source
+					// ,
+				 //    function (e, output) {
+				 //    	aux = output.css;
+				 //    	target.innerHTML = output.css;
+				 //    }
+				).then(
+					function(result) {
+				    	target.innerHTML = result.css;
+						// d.resolve(result.css);
+					},
+					function(error) {
+						console.error(	
+							"LESS Error \n" +
+							"Line: " + error.line + "\n" + 
+							"Message: " + error.message 
+						);
+					}
 				);
 			}
 		},
