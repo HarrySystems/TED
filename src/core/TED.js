@@ -285,18 +285,19 @@ var transpilers = [
 			},
 			transpile: function(source, target) {
 				stylus(source).render(function(error, result) {
-					// if (error) {
-					// 	window.err = error;
-					// 	// Last line of message is the actual message
-					// 	var tempArr = error.message.split('\n');
-					// 	tempArr.pop(); // This is empty string in the end
-					// 	showErrors('css', [
-					// 		{
-					// 			lineNumber: +error.message.match(/stylus:(\d+):/)[1] - 298,
-					// 			message: tempArr.pop()
-					// 		}
-					// 	]);
-					// }
+					if (error) {
+						window.err = error;
+						// Last line of message is the actual message
+						var tempArr = error.message.split('\n');
+						tempArr.pop(); // This is empty string in the end
+						
+
+						console.error(	
+							"Stylus Error \n" +
+							"Line: " + (+error.message.match(/stylus:(\d+):/)[1] - 298) + "\n" + 
+							"Message: " + tempArr.pop()
+						);
+					}
 
 					target.innerHTML = result
 				});
