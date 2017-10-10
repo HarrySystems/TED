@@ -183,6 +183,7 @@ var transpilers = [
 					},
 					function(error) {
 						console.error(	
+							"TED \n" +
 							"LESS Error \n" +
 							"Line: " + error.line + "\n" + 
 							"Message: " + error.message 
@@ -217,6 +218,7 @@ var transpilers = [
 					function(result) {
 						if (result.line && result.message) {
 							console.error(	
+								"TED \n" +
 								"SCSS Error \n" +
 								"Line: " + result.line + "\n" + 
 								"Message: " + result.message 
@@ -255,6 +257,7 @@ var transpilers = [
 					function(result) {
 						if (result.line && result.message) {
 							console.error(	
+								"TED \n" +
 								"SASS Error \n" +
 								"Line: " + result.line + "\n" + 
 								"Message: " + result.message 
@@ -375,6 +378,7 @@ var transpilers = [
 				})
 				if (code.diagnostics.length) {
 					console.error(	
+						"TED \n" +
 						"Typescript Error \n" +
 						"Line: " + ts.getLineOfLocalPosition(code.diagnostics[0].file, code.diagnostics[0].start) + "\n" + 
 						"Message: " + code.diagnostics[0].messageText
@@ -407,6 +411,7 @@ var transpilers = [
 					target.innerHTML = CoffeeScript.compile(source, { bare: true });
 				} catch (e) {
 					console.error(	
+						"TED \n" +
 						"CoffeeScript Error \n" +
 						"Line: " + e.location.first_line + "\n" + 
 						"Message: " + e.message
@@ -431,9 +436,22 @@ var transpilers = [
 		        }
 		    },
 		    transpile: function(source, target) {
-		        target.innerHTML += Babel.transform(source, {
-					presets: []
-				}).code;
+		    	try {
+					esprima.parseScript(source, {
+						tolerant: true,
+						jsx: true
+					});
+			        target.innerHTML += Babel.transform(source, {
+						presets: []
+					}).code;
+				} catch (e) {
+					console.error(
+						"TED \n" +
+						"Babel Error \n" +
+						"Line: " + (e.lineNumber) + "\n" + 
+						"Message: " + e.description
+					);
+				} 
 		    }
 		}
 

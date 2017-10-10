@@ -18,6 +18,7 @@
 			"js": [
 				"core/handler.js",
 
+				"core/esprima.js",
 				"core/babel.min.js",
 				"core/coffee-script.js",
 				"core/typescript.js",
