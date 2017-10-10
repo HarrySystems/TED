@@ -1,5 +1,6 @@
 var sass = null;
 
+
 var transpilers = [
 
 	// HTML
@@ -102,6 +103,29 @@ var transpilers = [
 		        	target.innerHTML = ejs.render(source);
 		    }
 		},
+		// {
+		//     name: "haml",
+		//     ext: "haml",
+		//     ini: function() {
+		//         e.partial("underscore-min.js");
+		//         e.partial("underscore.string.min.js");
+		//         e.partial("ejs.js");
+		//     },
+		//     elements: {
+		//         inline: {
+		//             input: "body>pre",
+		//             output: null
+		//         },
+		//         external: {
+		//             input: null,
+		//             output: null
+		//         }
+		//     },
+		//     transpile: function(source, target) {
+		//         if(e.getExt(location.href) == "haml")
+		//         	target.innerHTML = haml.compileHaml({source: source})();
+		//     }
+		// },
 		// {
 		//     name: "haml",
 		//     ext: "haml",
@@ -292,30 +316,25 @@ var transpilers = [
 		},
 
 	// JS
-		{
-		    name: "js",
-		    ext: "js",
-		    ini: function() {
-		    },
-		    elements: {
-		        inline: {
-		            input: 	null,
-		            output: null
-		        },
-		        external: {
-		            input: "script[lang='js']",
-		            output: "script"
-		        }
-		    },
-		    transpile: function(source, target) {
-		    	if(["pug", "jade"].includes(e.getExt(location.href))){
-		    		target.innerHTML = source;
-				}
-		  //       target.innerHTML += Babel.transform(source, {
-				// 	presets: []
-				// }).code;
-		    }
-		},
+		// {
+		//     name: "js",
+		//     ext: "js",
+		//     ini: function() {
+		//     },
+		//     elements: {
+		//         inline: {
+		//             input: "script",
+		//             output: "script"
+		//         },
+		//         external: {
+		//             input: "script",
+		//             output: "script"
+		//         }
+		//     },
+		//     transpile: function(source, target) {
+		//     	target.innerHTML = source;
+		//     }
+		// },
 		{
 		    name: "typescript",
 		    ext: "ts",
@@ -361,15 +380,11 @@ var transpilers = [
 				}
 			},
 			transpile: function(source, target) {
-				stylus(source).render(function(error, result) {
-					// try {
-						target.innerHTML = CoffeeScript.compile(source, { bare: true });
-					// } catch (e) {
-						// showErrors('js', [
-						// 	{ lineNumber: e.location.first_line, message: e.message }
-						// ]);
-					// }
-				});
+				try {
+					target.innerHTML = CoffeeScript.compile(source, { bare: true });
+				} catch (e) {
+					console.error("CoffeeScript Error \nLine: " + e.location.first_line + "\nMessage: " + e.message);
+				}
 			}
 		},
 		{
@@ -450,7 +465,6 @@ var transpilers = [
         					var external = document.createElement(config.elements.external.output);
         					document.querySelector("head").appendChild(external);
 
-
 							if(source != null && source != undefined)
         						config.transpile(source, external);
 						}
@@ -460,5 +474,24 @@ var transpilers = [
 
 				link.remove();
 			}
-
 	}
+
+
+
+// try {
+// 	chrome.runtime.sendMessage({ted_dom: "loaded"}, function(response) {
+// 	});
+// } catch(ex) {
+
+// }
+
+
+// chrome.runtime.onMessage.addListener(
+// 	function(request, sender, sendResponse) {
+// 		if (request.ted_extension == "js_enabled") {
+// 			var aux = document.queryElement("html").innerHTML
+// 			document.queryElement("html").innerHTML = ""
+// 			document.queryElement("html").innerHTML = aux;
+// 		}
+// 	}
+// );

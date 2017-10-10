@@ -1,4 +1,4 @@
-class Teste
+class Teste 
 	teste: () ->
 		console.log "teste coffeescript"
 		
