@@ -99,8 +99,16 @@ var transpilers = [
 		        }
 		    },
 		    transpile: function(source, target) {
-		        if(e.getExt(location.href) == "ejs")
-		        	target.innerHTML = ejs.render(source);
+		    	try {
+			        if(e.getExt(location.href) == "ejs")
+			        	target.innerHTML = ejs.render(source);
+			    } catch (ex) {
+					console.error(	
+						"TED \n" +
+						"EJS Error \n" +
+						"Message: " + ex
+					);
+			    }
 		    }
 		},
 		// {
