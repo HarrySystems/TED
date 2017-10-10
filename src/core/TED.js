@@ -215,15 +215,15 @@ var transpilers = [
 					source,
 					{ indentedSyntax: false},
 					function(result) {
-						// Something was wrong
-						// if (result.line && result.message) {
-						// 	showErrors('css', [
-						// 		{ lineNumber: result.line - 1, message: result.message }
-						// 	]);
-						// }
-						//console.log(result);
+						if (result.line && result.message) {
+							console.error(	
+								"SCSS Error \n" +
+								"Line: " + result.line + "\n" + 
+								"Message: " + result.message 
+							);
+						}
+
 						target.innerHTML = result.text;
-						// console.log(result.text);
 					}
 				);
 			}
@@ -253,15 +253,14 @@ var transpilers = [
 					source,
 					{ indentedSyntax: true},
 					function(result) {
-						// Something was wrong
-						// if (result.line && result.message) {
-						// 	showErrors('css', [
-						// 		{ lineNumber: result.line - 1, message: result.message }
-						// 	]);
-						// }
-						//console.log(result);
+						if (result.line && result.message) {
+							console.error(	
+								"SASS Error \n" +
+								"Line: " + result.line + "\n" + 
+								"Message: " + result.message 
+							);
+						}
 						target.innerHTML = result.text;
-						// console.log(result.text);
 					}
 				);
 			}
