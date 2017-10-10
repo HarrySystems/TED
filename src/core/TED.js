@@ -352,14 +352,24 @@ var transpilers = [
 		        }
 		    },
 		    transpile: function(source, target) {
-		        target.innerHTML += ts.transpileModule(source, {
+		    	code = ts.transpileModule(source, {
 					reportDiagnostics: true,
 					compilerOptions: {
 						noEmitOnError: true,
 						diagnostics: true,
 						module: ts.ModuleKind.ES2015
 					}
-				}).outputText;
+				})
+				if (code.diagnostics.length) {
+					console.error(	
+						"Typescript Error \n" +
+						"Line: " + ts.getLineOfLocalPosition(code.diagnostics[0].file, code.diagnostics[0].start) + "\n" + 
+						"Message: " + code.diagnostics[0].messageText
+					);
+				}
+				else {
+		        	target.innerHTML += code.outputText;
+				}
 		    }
 		},
 		{
@@ -383,7 +393,11 @@ var transpilers = [
 				try {
 					target.innerHTML = CoffeeScript.compile(source, { bare: true });
 				} catch (e) {
-					console.error("CoffeeScript Error \nLine: " + e.location.first_line + "\nMessage: " + e.message);
+					console.error(	
+						"CoffeeScript Error \n" +
+						"Line: " + e.location.first_line + "\n" + 
+						"Message: " + e.message
+					);
 				}
 			}
 		},
