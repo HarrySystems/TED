@@ -26,7 +26,6 @@
 				"core/jade.js",
 				"core/marked.js",
 				"core/ejs.min.js",
-				"core/ejs-lint.js",
 				"core/mustache.js",
 				"core/underscore-min.js", "core/underscore.string.min.js", "core/haml.js",
 
